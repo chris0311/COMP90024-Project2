@@ -1,0 +1,36 @@
+curl -XPUT -k 'https://127.0.0.1:9200/observations' \
+   --user 'elastic:elastic' \
+   --header 'Content-Type: application/json' \
+   --data '{
+    "settings": {
+        "index": {
+            "number_of_shards": 3,
+            "number_of_replicas": 1
+        }
+    },
+    "mappings": {
+        "properties": {
+            "local_date_time": {
+                "type": "date"
+            },
+            "air_temp": {
+                "type": "float"
+            },
+            "rel_hum": {
+                "type": "float"
+            },
+            "apparent_t": {
+                "type": "float"
+            },
+            "wind_spd_kmh": {
+                "type": "short"
+            },
+            "vis_km": {
+                "type": "short"
+            },
+            "rain_trace": {
+                "type": "float"
+            }
+        }
+    }
+}'  | jq '.'
