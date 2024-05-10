@@ -1,5 +1,6 @@
 import logging, json, requests, socket
 from flask import current_app, request
+from elasticsearch8 import Elasticsearch
 
 def reformat_date(date):
     year = date[:4]
@@ -8,7 +9,7 @@ def reformat_date(date):
     hour = date[8:10]
     minute = date[10:12]
     second = date[12:14]
-    return f'{year}-{month}-{day} {hour}:{minute}:{second}'
+    return f'{year}-{month}-{day}T{hour}:{minute}:{second}Z'
 
 
 def main():
@@ -25,9 +26,23 @@ def main():
     }
 
     current_app.logger.info(f'Harvested one weather observation')
-    requests.post(url='http://router.fission/enqueue/observations',
-        headers={'Content-Type': 'application/json'},
-        data=json.dumps(extracted_data)
+    # requests.post(url='http://router.fission/enqueue/observations',
+    #     headers={'Content-Type': 'application/json'},
+    #     data=json.dumps(extracted_data)
+    # )
+
+    # Add the harvested data to the Elasticsearch cluster
+    client = Elasticsearch (
+        'https://elasticsearch-master.elastic.svc.cluster.local:9200',
+        verify_certs= False,
+        ssl_show_warn= False,
+        basic_auth=('elastic', 'elastic')
     )
+
+    res = client.index(
+        index='observations',
+        body=extracted_data
+    )
+    current_app.logger.info("created observation")
 
     return 'OK'
