@@ -1,0 +1,27 @@
+import logging, json
+from flask import current_app, request
+from elasticsearch8 import Elasticsearch
+
+def main():
+    client = Elasticsearch (
+        'https://elasticsearch-master.elastic.svc.cluster.local:9200',
+        verify_certs= False,
+        ssl_show_warn= False,
+        basic_auth=('elastic', 'elastic')
+    )
+
+    try:
+        data = request.headers.get('X-Fission-Params-Data')
+        eindex = request.headers.get('X-Fission-Params-Index')
+        current_app.logger.info(f'Data to add: {data}')
+        data = json.loads(data)
+        for d in data:
+            res = client.index(
+                index=eindex,
+                body=d
+            )
+            current_app.logger.info("created observation")
+        
+        return 'ok'
+    except:
+        return 'No data found in headers'
