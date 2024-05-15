@@ -5,8 +5,11 @@ from flask import current_app, request
 def main():
     data = requests.get('http://reg.bom.gov.au/fwo/IDV60901/IDV60901.95936.json').json()
     extracted_field = data['observations']['data'][0]
+    date = data['observations']['data'][1]['local_date_time_full']
     reformatted_date = requests.post(
-        url=f"http://router.fission/redate/{data['observations']['data'][1]['local_date_time_full']}"
+        url=f"http://router.fission/redate",
+        headers={'Content-Type': 'application/json'},
+        data=json.dumps({'date': date})
     )
     extracted_data = {
         'air_temp': float(extracted_field['air_temp']),

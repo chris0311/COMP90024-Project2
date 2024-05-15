@@ -11,10 +11,9 @@ def main():
     )
 
     try:
-        data = request.headers.get_json(force=True)
+        data = request.get_json(force=True)
         eindex = request.headers.get('X-Fission-Params-Index')
         current_app.logger.info(f'Data to add: {data}')
-        data = json.loads(data)
         for d in data:
             res = client.index(
                 index=eindex,

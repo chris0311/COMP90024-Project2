@@ -3,13 +3,14 @@ from mastodon import Mastodon
 import requests
 import json, time
 
+
 def main():
     m = Mastodon(
         api_base_url=f'https://mastodon.au'
     )
 
     # Get the ID of the lastid status main the public timeline
-    lastid= m.timeline(timeline='public', since_id=None, limit=1, remote=True)[0]['id']
+    lastid = m.timeline(timeline='public', since_id=None, limit=1, remote=True)[0]['id']
 
     # Sleep for 5 seconds to allow for some status to be posted before we fetch them
     time.sleep(10)
@@ -22,17 +23,22 @@ def main():
     res = []
     for data in m_data:
         content = data['content']
-        content = requests.post(url='http://router.fission/mpreprocess/',
-            headers={'Content-Type': 'text/plain'},
-            data=content)
-        sentiment = requests.post(url='http://router.fission/sentiment/',
-            headers={'Content-Type': 'text/plain'},
-            data=content)
+        content = requests.post(url='http://router.fission/mpreprocess',
+                                headers={'Content-Type': 'application/json'},
+                                data=json.dumps({'text': content}))
+        sentiment = requests.post(url='http://router.fission/sentiment',
+                                  headers={'Content-Type': 'application/json'},
+                                  data=json.dumps({'text': content.text}))
+        location = requests.post(url='http://router.fission/genloc')
+        create_time = requests.post(url='http://router.fission/mredate',
+                                    headers={'Content-Type': 'application/json'},
+                                    data=json.dumps({'date': data['created_at']}))
         res.append({
-            'created_at': data['created_at'],
+            'created_at': create_time,
             'content': content,
-            'sentiment': sentiment
-            }
+            'sentiment': float(sentiment.text),
+            'location': location
+        }
         )
 
     current_app.logger.info(f'Harvested {len(res)} toots, saving to ElasticSearch')

@@ -6,7 +6,9 @@ import json, time
 
 def main():
     try:
-        date = request.headers.get('X-Fission-Params-Date')
+        data = request.get_json(force=True)
+        data = json.loads(data)
+        date = data['date']
         year = date[:4]
         month = date[4:6]
         day = date[6:8]

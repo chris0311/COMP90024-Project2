@@ -1,6 +1,7 @@
 import logging, json, requests, socket
 from flask import current_app, request
 
+
 def reformat_date(date):
     year = date[:4]
     month = date[4:6]
@@ -26,8 +27,8 @@ def main():
 
     current_app.logger.info(f'Harvested one weather observation')
     requests.post(url='http://router.fission/enqueue/observations',
-        headers={'Content-Type': 'application/json'},
-        data=json.dumps(extracted_data)
-    )
+                  headers={'Content-Type': 'application/json'},
+                  data=json.dumps(extracted_data)
+                  )
 
     return 'OK'

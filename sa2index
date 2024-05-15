@@ -1,0 +1,21 @@
+curl -XPUT -k 'https://127.0.0.1:9200/sa2' \
+   --user 'elastic:elastic' \
+   --header 'Content-Type: application/json' \
+   --data '{
+    "settings": {
+        "index": {
+            "number_of_shards": 3,
+            "number_of_replicas": 1
+        }
+    },
+    "mappings": {
+        "properties": {
+            "sa2_code": {
+                "type": "integer"
+            },
+            "median_age": {
+                "type": "float"
+            }
+        }
+    }
+}'  | jq '.'
