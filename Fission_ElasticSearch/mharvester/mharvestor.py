@@ -32,12 +32,12 @@ def main():
         location = requests.post(url='http://router.fission/genloc')
         create_time = requests.post(url='http://router.fission/mredate',
                                     headers={'Content-Type': 'application/json'},
-                                    data=json.dumps({'date': data['created_at']}))
+                                    data=json.dumps({'date': str(data['created_at'])}))
         res.append({
-            'created_at': create_time,
-            'content': content,
+            'created_at': str(create_time.text),
+            'content': str(content.text),
             'sentiment': float(sentiment.text),
-            'location': location
+            'location': location.json()
         }
         )
 

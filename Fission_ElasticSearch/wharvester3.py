@@ -18,7 +18,7 @@ def main():
         'rel_hum': float(extracted_field['rel_hum']),
         'vis_km': int(extracted_field['vis_km']),
         'wind_spd_kmh': int(extracted_field['wind_spd_kmh']),
-        'local_date_time': reformatted_date,
+        'local_date_time': reformatted_date.text,
     }
 
     current_app.logger.info(f'Harvested one weather observation, saving to ElasticSearch')

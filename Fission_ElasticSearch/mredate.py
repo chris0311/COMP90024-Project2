@@ -7,7 +7,7 @@ def main():
         date = data['date']
         date_object = datetime.fromisoformat(date)
         formatted_date = date_object.strftime("%Y-%m-%dT%H:%M:%SZ")
-        return formatted_date
+        return str(formatted_date)
     except KeyError:
         current_app.logger.error('No date found in the request data')
         return "No date found in request"
