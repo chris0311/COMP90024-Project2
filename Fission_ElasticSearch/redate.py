@@ -1,5 +1,4 @@
 from flask import current_app, request
-from mastodon import Mastodon
 import requests
 import json, time
 
@@ -7,7 +6,6 @@ import json, time
 def main():
     try:
         data = request.get_json(force=True)
-        data = json.loads(data)
         date = data['date']
         year = date[:4]
         month = date[4:6]

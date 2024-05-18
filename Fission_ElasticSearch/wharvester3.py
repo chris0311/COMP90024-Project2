@@ -21,10 +21,12 @@ def main():
         'local_date_time': reformatted_date.text,
     }
 
+    res = [extracted_data]
+
     current_app.logger.info(f'Harvested one weather observation, saving to ElasticSearch')
     requests.post(url='http://router.fission/adddata/observations',
                   headers={'Content-Type': 'application/json'},
-                  data=json.dumps(extracted_data))
+                  data=json.dumps(res))
     current_app.logger.info("added observation")
 
     return 'OK'
