@@ -17,7 +17,7 @@ def main():
         eindex = request.headers.get('X-Fission-Params-Index')
         current_app.logger.info(f'Save to index: {eindex}')
         current_app.logger.info(f'Data to add: {data}')
-
+        
         for d in data:
             try:
                 res = client.index(
@@ -27,7 +27,7 @@ def main():
                 current_app.logger.info(f"Sent to ES: {res}")
             except Exception as es_error:
                 current_app.logger.error(f"Error sending to ES: {es_error}")
-
+        
         return 'ok'
     except Exception as e:
         current_app.logger.error(f"Error processing request: {e}")

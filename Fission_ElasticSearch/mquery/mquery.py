@@ -4,10 +4,11 @@ from flask import Flask, current_app, request
 from elasticsearch8 import Elasticsearch
 from string import Template
 
+
 def main():
-    days_expr = Template('''{
+    days_expr= Template('''{
                     "range": {
-                        "local_date_time": {
+                        "created_at": {
                             "gte": "${sdate}T00:00:00",
                             "lte": "${edate}T23:59:59"
                         }
@@ -36,12 +37,14 @@ def main():
         )
 
         res = client.search(
-            index = 'observations',
+            index = 'mastodon',
             body = json.loads(query)
         )
 
-        return json.dumps(res)
-    
+        res_dict = res.body
+
+        return json.dumps(res_dict)
+        
     except KeyError as e:
         current_app.logger.error(f"Error processing request: {e}")
         return 'No data found in headers', 500

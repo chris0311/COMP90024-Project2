@@ -4,21 +4,21 @@ from flask import Flask, current_app, request
 from elasticsearch8 import Elasticsearch
 from string import Template
 
-days_expr= Template('''{
+def main():
+    days_expr = Template('''{
                     "range": {
-                        "created_at": {
+                        "local_date_time": {
                             "gte": "${sdate}T00:00:00",
                             "lte": "${edate}T23:59:59"
                         }
                     }
                 }''')
 
-query_template = Template('''{
-    "query": ${days_expr},
-    "size": ${size}
-}''')
+    query_template = Template('''{
+        "query": ${days_expr},
+        "size": ${size}
+    }''')
 
-def main():
     try:
         start_date = request.headers.get('X-Fission-Params-Sdate')
         end_date = request.headers.get('X-Fission-Params-Edate')
@@ -36,11 +36,13 @@ def main():
         )
 
         res = client.search(
-            index = 'mastodon',
+            index = 'observations',
             body = json.loads(query)
         )
 
-        return res
+        res_dict = res.body
+
+        return json.dumps(res_dict)
     
     except KeyError as e:
         current_app.logger.error(f"Error processing request: {e}")

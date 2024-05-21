@@ -1,4 +1,4 @@
-curl -XPUT -k 'https://127.0.0.1:9200/loc' \
+curl -XPUT -k 'https://127.0.0.1:9200/geoindex' \
    --user 'elastic:elastic' \
    --header 'Content-Type: application/json' \
    --data '{
@@ -11,7 +11,7 @@ curl -XPUT -k 'https://127.0.0.1:9200/loc' \
     "mappings": {
         "properties": {
             "location": {
-                "type": "geo_point"
+                "type": "geo_shape"
             }
         }
     }

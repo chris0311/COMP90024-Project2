@@ -1,24 +1,24 @@
 ( 
-cd ./fission/functions/concat
-zip -r concat.zip .
-mv concat.zip ../
+cd ./fission/functions/scale
+zip -r scale.zip .
+mv scale.zip ../
 )
 
 
 (
   cd fission
-  fission package create --sourcearchive ./functions/concat.zip \
-    --env python-39 \
-    --name concat\
+  fission package create --sourcearchive ./functions/scale.zip \
+    --env python-39x \
+    --name scale\
     --buildcmd './build.sh'
 )
 
 (
-  fission function create --name concat\
-    --pkg concat\
-    --env python-39 \
+  fission function create --name scale\
+    --pkg scale \
+    --env python-39x \
     --fntimeout 600 \
-    --entrypoint "concat.main"
+    --entrypoint "scale.main"
 )
 
 fission httptrigger create --name mredate --url "/mredate" --method POST --function mredate
