@@ -79,7 +79,7 @@ curl -k 'https://127.0.0.1:9200/_cluster/health' --user 'elastic:elastic' | jq '
 # Run
 
 - To explore the front end, please open and run the `frontend.ipynb` after port forwarding
-- To explore back end APIs, please view the [API Documentation](https://github.com/chris0311/COMP90024-Project2/blob/main/API%20Document.md) after port forwarding
+- To explore back end APIs, please view the [API Documentation](https://github.com/chris0311/COMP90024-Project2/blob/main/docs/API%20Document.md) after port forwarding
 
 # Contributors
 

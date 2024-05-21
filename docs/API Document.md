@@ -26,8 +26,8 @@
 
 - Request Body:
 
-  ```
-  jsonCopy code{
+  ```json
+  {
     "date": "Str"
   }
   ```
@@ -46,8 +46,8 @@
 
 - Request Body:
 
-  ```
-  jsonCopy code{
+  ```json
+  {
     "text": "Str"
   }
   ```
@@ -66,8 +66,8 @@
 
 - Request Body:
 
-  ```
-  jsonCopy code{
+  ``` json
+  code{
     "text": "Str"
   }
   ```
@@ -86,8 +86,8 @@
 
 - Request Body:
 
-  ```
-  jsonCopy code{
+  ``` json
+  {
     "data": "JSON file"
   }
   ```
@@ -142,8 +142,8 @@
 
 - Request Body:
 
-  ```
-  jsonCopy code{
+  ``` json
+  {
     "sa2_codes": []
   }
   ```
