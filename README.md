@@ -56,7 +56,7 @@ curl -k 'https://127.0.0.1:9200/_cluster/health' --user 'elastic:elastic' | jq '
 
 ```
 ├─Archive
-├─Fission_ElasticSearch
+├─backend
 │  ├─adddata
 │  ├─bomquery
 │  ├─concat
@@ -67,12 +67,13 @@ curl -k 'https://127.0.0.1:9200/_cluster/health' --user 'elastic:elastic' | jq '
 │  ├─sa2
 │  ├─sa2bulk
 │  └─sentiment
+├─docs
 └─geo
-    └─SA2_2021_AUST_SHP_GDA2020
 ```
 
 - `Archive` contain “scratch” or experimental files created during development
-- `Fission_ElasticSearch` contains all functions and packages deployed on cloud
+- `backend` contains all functions and packages deployed on cloud
+- `docs` contains the report and the API document
 - `geo` contains geographical data we use in the project
 
 # Run
